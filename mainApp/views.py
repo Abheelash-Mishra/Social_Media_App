@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views import View
 from .models import Post
-from .forms import Post_Entry
+from .forms import Post_Entry, Comment_Entry
 
 # Create your views here.
 
@@ -9,10 +9,12 @@ class SocialPosts(View):
     def get(self, request, *args, **kwargs):
         content_posts = Post.objects.all().order_by("-created")
         form = Post_Entry()
+        comment = Comment_Entry()
 
         context = {
-            "content_list": content_posts,
-            "form": form,
+            "content_list":content_posts,
+            "form":form,
+            "comment":comment,
         }
 
         return render(request, "content_list.html", context)

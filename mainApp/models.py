@@ -8,6 +8,8 @@ class Post(models.Model):
     created = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
-class Comments(models.Model):
+class Comment(models.Model):
     comment_body = models.TextField()
-    comment_author = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment_created = models.DateTimeField(default=timezone.now)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey("Post", on_delete=models.CASCADE)
