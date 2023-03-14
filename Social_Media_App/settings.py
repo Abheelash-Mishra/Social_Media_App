@@ -98,8 +98,13 @@ WSGI_APPLICATION = 'Social_Media_App.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': BASE_DIR / 'db.sqlite3',
+        # 'NAME': 'SocialApp',
+        # 'USER': 'root',
+        # 'PASSWORD': 'tiger',
+        # 'HOST': 'localhost',
+        # 'PORT': '3306',
     }
 }
 
@@ -145,7 +150,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = "landing"
+LOGIN_REDIRECT_URL = "content_list"
 
 ACCOUNT_EMAIL_REQUIRED = True
 # EMAIL_BACKEND = ""
