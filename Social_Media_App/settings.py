@@ -99,12 +99,12 @@ WSGI_APPLICATION = 'Social_Media_App.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': BASE_DIR / 'db.sqlite3',
-        # 'NAME': 'SocialApp',
-        # 'USER': 'root',
-        # 'PASSWORD': 'tiger',
-        # 'HOST': 'localhost',
-        # 'PORT': '3306',
+        # 'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': 'SocialApp',
+        'USER': 'root',
+        'PASSWORD': 'tiger',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
