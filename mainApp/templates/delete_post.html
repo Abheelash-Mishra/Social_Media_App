@@ -1,0 +1,25 @@
+{% extends "base_layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="container">
+        <div style="border: solid 1px black; border-radius: 10px; width: 100%; background-color: white">
+            <div class="row justify-content-center mt-5">
+                <div class="col-md-5 col-sm-15 border-bottom">
+                    <h3>Are you sure you want to delete your post?</h3>
+                    <p>This can't be undone!</p>
+                </div>
+            </div>
+
+            <div class="row justify-content-center mt-5 mb-5">
+                <div class="col-md-5 col-sm-15 border-bottom">
+                    <form method="POST">
+                        {% csrf_token %}
+                            <button class="btn btn-success mt-3 mb-3">Submit!</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
