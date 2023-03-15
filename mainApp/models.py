@@ -22,6 +22,8 @@ class Profile(models.Model):
     bio = models.TextField(blank= True, null=True)
     birthday = models.DateField(blank= True, null=True)
     picture = models.ImageField(upload_to="uploads/profile_pic", default="uploads/profile_pic/dafault_PP.png", blank=True)
+    followers = models.ManyToManyField(User, blank=True, related_name="followers")
+
 
 @receiver(post_save, sender = User)
 def create_profile(sender, instance, created, **kwargs):
