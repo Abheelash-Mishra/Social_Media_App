@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
-from .models import Post
+from .models import Post, Comment
 from .forms import Post_Entry, Comment_Entry
 from django.shortcuts import redirect
 from django.views.generic import UpdateView, DeleteView
@@ -46,9 +46,19 @@ class SocialPosts(View):
 
         return render(request, "content_list.html", context)
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, post_ID, *args, **kwargs):
         content_posts = Post.objects.all().order_by("-created")
+        comment_posts = Post.objects.get(post_ID=post_ID)
         form = Post_Entry(request.POST)
+        comment_form = Comment_Entry(request.POST)
+
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.author = request.user
+            new_comment.post = comment_posts
+
+        comments = Comment.objects.filter(post=comment_posts).order_by("-created")
+
         if form.is_valid():
             new_post = form.save(commit=False)
             new_post.author = request.user
@@ -57,6 +67,7 @@ class SocialPosts(View):
         context = {
             "content_list":content_posts,
             "form":form,
+            "comments":comments,
         }
 
         return render(request, "content_list.html", context)
