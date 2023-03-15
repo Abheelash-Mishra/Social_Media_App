@@ -11,3 +11,5 @@ The app has the following features implemented
 - Follow & Unfollow Users
 - Likes & Dislikes
 - User Search
+
+Website Host Link: https://social-media-app-cx5v.onrender.com
