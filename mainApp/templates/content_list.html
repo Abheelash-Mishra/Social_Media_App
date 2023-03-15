@@ -36,13 +36,30 @@
                     <div class="col-md-5 col-sm-15 border-bottom pb-2">
                         <p>{{ post.body }}</p>
                         <div class="post_header">
-                            <h2 style="display: inline; vertical-align: top; line-height: 25px;"><a href="{% url "profile" post.author.profile.pk %}" style="text-decoration: none; color: deepskyblue">@{{ post.author }} </a></h2>
+                            <h2 style="display: inline; vertical-align: top; line-height: 25px;"><a
+                                    href="{% url "profile" post.author.profile.pk %}"
+                                    style="text-decoration: none; color: deepskyblue">@{{ post.author }} </a></h2>
                             <p style="display: inline; vertical-align: top; ">{{ post.created }}</p>
                             {% if user == post.author %}
                                 <a href="{% url 'delete_post' post.id %}"
                                    style="text-decoration: none; margin-left: 450px; background-color: red; padding: 5px; color: white; border: solid 1px black; border-radius: 10px">Delete</a>
                             {% endif %}
-
+                            <div class="d-flex flex-row p-3">
+                                <form action="{% url "likes" post.pk %}" method="POST" class="m-2">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="next_page" value="{{ request.path }}">
+                                    <button type="submit" class="btn btn-success"><i
+                                            class="fa fa-thumbs-up"><span> {{ post.likes.all.count }}</span></i>
+                                    </button>
+                                </form>
+                                <form action="{% url "dislikes" post.pk %}" method="POST" class="m-2">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="next_page" value="{{ request.path }}">
+                                    <button type="submit" class="btn btn-danger"><i
+                                            class="fa fa-thumbs-down"><span> {{ post.dislikes.all.count }}</span></i>
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

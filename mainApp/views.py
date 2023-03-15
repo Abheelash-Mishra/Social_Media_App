@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
@@ -72,6 +73,65 @@ class SocialPosts(View):
         }
 
         return render(request, "content_list.html", context)
+
+class Dislikes(LoginRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        post = Post.objects.get(pk=pk)
+
+        have_liked = False
+
+        for liker in post.likes.all():
+            if liker == request.user:
+                have_liked = True
+                break
+
+        if have_liked:
+            post.likes.remove(request.user)
+
+        have_disliked = False
+
+        for disliker in post.dislikes.all():
+            if disliker == request.user:
+                have_disliked == True
+                break
+
+        if not have_disliked:
+            post.dislikes.add(request.user)
+        if have_disliked:
+            post.dislikes.remove(request.user)
+
+        next_page = request.POST.get("next_page", "/")
+        return HttpResponseRedirect(next_page)
+
+class Likes(LoginRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        post = Post.objects.get(pk=pk)
+
+        have_disliked = False
+
+        for disliker in post.dislikes.all():
+            if disliker == request.user:
+                have_disliked == True
+                break
+
+        if have_disliked:
+            post.likes.remove(request.user)
+
+        have_liked = False
+
+        for liker in post.likes.all():
+            if liker == request.user:
+                have_liked = True
+                break
+
+        if not have_liked:
+            post.likes.add(request.user)
+        if have_liked:
+            post.likes.remove(request.user)
+
+        next_page = request.POST.get("next_page", "/")
+        return HttpResponseRedirect(next_page)
+
 
 class ProfileView(View):
     def get(self, request, pk, *args, **kwargs):
