@@ -1,0 +1,14 @@
+{% extends "base_layout.html" %}
+
+{% block content %}
+<div class="container">
+    {% for result in search_results %}
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <p><a class="text-primary" href="{% url "profile" result.pk %}" style="text-decoration: none">@{{ result.user }}</a></p>
+                <p>Followers: {{ result.followers.all.count }}</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -187,3 +188,14 @@ class EditProfileView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def test_func(self):
         profile = self.get_object()
         return self.request.user == profile.user
+
+class SearchUser(View):
+    def get(self, request, *args, **kwargs):
+        query = self.request.GET.get("query")
+        search_results = Profile.objects.filter(Q(user__username__icontains=query))
+
+        context = {
+            "search_results": search_results,
+        }
+
+        return render(request, "search.html", context)
