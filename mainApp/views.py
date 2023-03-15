@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
@@ -85,3 +86,16 @@ class ProfileView(View):
         }
 
         return render(request, "profile.html", context)
+
+class EditProfileView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Profile
+    fields = ["name","bio","birthday","picture"]
+    template_name = "edit_profile.html"
+
+    def get_success_url(self):
+        pk = self.kwargs["pk"]
+        return reverse_lazy("profile", kwargs={"pk":pk})
+
+    def test_func(self):
+        profile = self.get_object()
+        return self.request.user == profile.user

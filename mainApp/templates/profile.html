@@ -13,7 +13,14 @@
         </div>
         <div class="row justify-content-center mt-5 mb-5">
             <div class="card col-md-5 col-sm-15 border-bottom">
-                <img src="{{ profile.picture.url }}" width="80" height="80" class="rounded-circle" alt="Profile Pic"/>
+                <img src="{{ profile.picture.url }}" width="80" height="80" class="rounded-circle" alt="Profile Pic" style="margin: 15px"/>
+                <span>
+                    {% if request.user == user %}
+                        <a href="{% url "profile_edit" profile.pk %}"
+                           style="text-decoration: none; margin-left: 84%; background-color: deepskyblue; padding: 5px; color: white; border: solid 1px black; border-radius: 10px"><i
+                                class="fa fa-edit"></i>Edit</a>
+                    {% endif %}
+                </span>
                 {% if profile.name %}
                     <h2>{{ profile.name }}</h2>
                 {% endif %}

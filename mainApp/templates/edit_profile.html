@@ -1,0 +1,35 @@
+{% extends "base_layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="container">
+        <div>
+            {#        <div style="border: solid 1px black; border-radius: 10px; width: 100%; background-color: white">#}
+            <div class="row mt-5">
+                <div class="col-md-5 col-sm-6">
+                    <a class="btn btn-light" href="{% url "profile" object.pk %}">Back To Profile</a>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center mt-5 mb-5">
+            <div class="card col-md-5 col-sm-15 border-bottom" style="border-radius: 20px; padding: 10px">
+                <h2>Update Your Profile!</h2>
+            </div>
+        </div>
+        <div class="mb-5"
+             style="border: solid 1px black; border-radius: 10px; width: 100%; background-color: white">
+            <div class="row justify-content-center mt-5">
+                <div class="col-md-5 col-sm-5 border-bottom pb-5">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form | crispy }}
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-success mt-5">Submit!</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock content %}
