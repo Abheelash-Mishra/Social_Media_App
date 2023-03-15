@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
-from .models import Post, Comment
+from .models import Post, Comment, Profile
 from .forms import Post_Entry, Comment_Entry
 from django.shortcuts import redirect
 from django.views.generic import UpdateView, DeleteView
@@ -46,9 +46,9 @@ class SocialPosts(View):
 
         return render(request, "content_list.html", context)
 
-    def post(self, request, post_ID, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         content_posts = Post.objects.all().order_by("-created")
-        comment_posts = Post.objects.get(post_ID=post_ID)
+        comment_posts = Post.objects.all()
         form = Post_Entry(request.POST)
         comment_form = Comment_Entry(request.POST)
 
@@ -57,7 +57,7 @@ class SocialPosts(View):
             new_comment.author = request.user
             new_comment.post = comment_posts
 
-        comments = Comment.objects.filter(post=comment_posts).order_by("-created")
+        # comments = Comment.objects.filter(post=comment_posts).order_by("-created")
 
         if form.is_valid():
             new_post = form.save(commit=False)
@@ -67,7 +67,21 @@ class SocialPosts(View):
         context = {
             "content_list":content_posts,
             "form":form,
-            "comments":comments,
+            "comments":comment_posts,
         }
 
         return render(request, "content_list.html", context)
+
+class ProfileView(View):
+    def get(self, request, pk, *args, **kwargs):
+        profile = Profile.objects.get(pk=pk)
+        user = profile.user
+        posts = Post.objects.filter(author=user).order_by("-created")
+
+        context = {
+            "user": user,
+            "profile": profile,
+            "posts": posts
+        }
+
+        return render(request, "profile.html", context)
