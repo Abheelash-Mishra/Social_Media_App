@@ -112,7 +112,7 @@ class Likes(LoginRequiredMixin, View):
 
         for disliker in post.dislikes.all():
             if disliker == request.user:
-                have_disliked == True
+                have_disliked = True
                 break
 
         if have_disliked:
